@@ -13,6 +13,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.dataprovider.BarDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.renderer.BarChartRenderer;
+import com.github.mikephil.charting.utils.Utils;
 
 /**
  * Chart that draws bars.
@@ -38,6 +39,16 @@ public class BarChart extends BarLineChartBase<BarData> implements BarDataProvid
 
     private boolean mFitBars = false;
 
+    /**
+     * if set to true, the bar chart's bars would be round on all corners instead of rectangular
+     */
+    private boolean mDrawRoundedBars;
+
+    /**
+     * the radius of the rounded bar chart bars
+     */
+    private float mRoundedBarRadius = 0f;
+
     public BarChart(Context context) {
         super(context);
     }
@@ -54,7 +65,7 @@ public class BarChart extends BarLineChartBase<BarData> implements BarDataProvid
     protected void init() {
         super.init();
 
-        mRenderer = new BarChartRenderer(this, mAnimator, mViewPortHandler);
+        mRenderer = new BarChartRenderer(this, mAnimator, mViewPortHandler, mDrawRoundedBars, mRoundedBarRadius);
 
         setHighlighter(new BarHighlighter(this));
 
@@ -254,5 +265,20 @@ public class BarChart extends BarLineChartBase<BarData> implements BarDataProvid
             getBarData().groupBars(fromX, groupSpace, barSpace);
             notifyDataSetChanged();
         }
+    }
+
+    /**
+     * Used to enable rounded bar chart bars and set the radius of the rounded bars
+     *
+     * @param mRoundedBarRadius - the radius of the rounded bars
+     */
+    public void setRoundedBarRadius(float mRoundedBarRadius) {
+        this.mDrawRoundedBars = true;
+        if (mRoundedBarRadius < 0f) {
+            this.mRoundedBarRadius = 0f;
+        } else {
+            this.mRoundedBarRadius = Utils.convertDpToPixel(mRoundedBarRadius);
+        }
+        init();
     }
 }

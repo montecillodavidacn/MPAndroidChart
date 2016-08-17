@@ -34,6 +34,16 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
     protected Paint mShadowPaint;
     protected Paint mBarBorderPaint;
 
+    /**
+     * if set to true, the bar chart's bars would be round on all corners instead of rectangular
+     */
+    private boolean mDrawRoundedBars;
+
+    /**
+     * the radius of the rounded bar chart bars
+     */
+    private float mRoundedBarRadius = 0f;
+
     public BarChartRenderer(BarDataProvider chart, ChartAnimator animator,
                             ViewPortHandler viewPortHandler) {
         super(animator, viewPortHandler);
@@ -50,6 +60,13 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
         mBarBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBarBorderPaint.setStyle(Paint.Style.STROKE);
+    }
+
+    public BarChartRenderer(BarDataProvider chart, ChartAnimator animator,
+            ViewPortHandler viewPortHandler, boolean mDrawRoundedBars, float mRoundedBarRadius) {
+        this(chart, animator, viewPortHandler);
+        this.mDrawRoundedBars = mDrawRoundedBars;
+        this.mRoundedBarRadius = mRoundedBarRadius;
     }
 
     @Override
@@ -126,7 +143,11 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
                 mBarShadowRectBuffer.top = mViewPortHandler.contentTop();
                 mBarShadowRectBuffer.bottom = mViewPortHandler.contentBottom();
 
-                c.drawRect(mBarShadowRectBuffer, mShadowPaint);
+                if (mDrawRoundedBars) {
+                    c.drawRoundRect(mBarShadowRectBuffer, mRoundedBarRadius, mRoundedBarRadius, mShadowPaint);
+                } else {
+                    c.drawRect(mBarShadowRectBuffer, mShadowPaint);
+                }
             }
         }
 
@@ -161,12 +182,22 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
                 mRenderPaint.setColor(dataSet.getColor(j / 4));
             }
 
-            c.drawRect(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
-                    buffer.buffer[j + 3], mRenderPaint);
+            if (mDrawRoundedBars) {
+                c.drawRoundRect(new RectF(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
+                        buffer.buffer[j + 3]), mRoundedBarRadius, mRoundedBarRadius, mRenderPaint);
+            } else {
+                c.drawRect(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
+                        buffer.buffer[j + 3], mRenderPaint);
+            }
 
             if (drawBorder) {
-                c.drawRect(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
-                        buffer.buffer[j + 3], mBarBorderPaint);
+                if (mDrawRoundedBars) {
+                    c.drawRoundRect(new RectF(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
+                            buffer.buffer[j + 3]), mRoundedBarRadius, mRoundedBarRadius, mBarBorderPaint);
+                } else {
+                    c.drawRect(buffer.buffer[j], buffer.buffer[j + 1], buffer.buffer[j + 2],
+                            buffer.buffer[j + 3], mBarBorderPaint);
+                }
             }
         }
     }
@@ -351,7 +382,7 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
             mHighlightPaint.setColor(set.getHighLightColor());
             mHighlightPaint.setAlpha(set.getHighLightAlpha());
 
-            boolean isStack = (high.getStackIndex() >= 0  && e.isStacked()) ? true : false;
+            boolean isStack = (high.getStackIndex() >= 0  && e.isStacked());
 
             final float y1;
             final float y2;
@@ -380,7 +411,11 @@ public class BarChartRenderer extends BarLineScatterCandleBubbleRenderer {
 
             setHighlightDrawPos(high, mBarRect);
 
-            c.drawRect(mBarRect, mHighlightPaint);
+            if (mDrawRoundedBars) {
+                c.drawRoundRect(new RectF(mBarRect), mRoundedBarRadius, mRoundedBarRadius, mHighlightPaint);
+            } else {
+                c.drawRect(mBarRect, mHighlightPaint);
+            }
         }
     }
 
