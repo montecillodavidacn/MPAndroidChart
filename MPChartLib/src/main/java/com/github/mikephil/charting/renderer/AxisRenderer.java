@@ -45,6 +45,9 @@ public abstract class AxisRenderer extends Renderer {
      */
     protected Paint mLimitLinePaint;
 
+    /** paint used for the limit zones */
+    protected Paint mLimitZonePaint;
+
     public AxisRenderer(ViewPortHandler viewPortHandler, Transformer trans, AxisBase axis) {
         super(viewPortHandler);
 
@@ -68,6 +71,9 @@ public abstract class AxisRenderer extends Renderer {
 
             mLimitLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             mLimitLinePaint.setStyle(Paint.Style.STROKE);
+
+            mLimitZonePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            mLimitZonePaint.setStyle(Paint.Style.FILL);
         }
     }
 
@@ -284,4 +290,11 @@ public abstract class AxisRenderer extends Renderer {
      * @param c
      */
     public abstract void renderLimitLines(Canvas c);
+
+    /**
+     * Draws the LimitZones associated with this axis to the screen.
+     *
+     * @param c
+     */
+    public abstract void renderLimitZones(Canvas c);
 }
