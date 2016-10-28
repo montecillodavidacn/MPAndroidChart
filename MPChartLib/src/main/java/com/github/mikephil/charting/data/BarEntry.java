@@ -1,6 +1,8 @@
 package com.github.mikephil.charting.data;
 
 import android.annotation.SuppressLint;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.github.mikephil.charting.highlight.Range;
 
@@ -10,7 +12,7 @@ import com.github.mikephil.charting.highlight.Range;
  * @author Philipp Jahoda
  */
 @SuppressLint("ParcelCreator")
-public class BarEntry extends Entry {
+public class BarEntry extends Entry implements Parcelable {
 
     /**
      * the values the stacked barchart holds
@@ -250,6 +252,40 @@ public class BarEntry extends Entry {
             }
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeFloatArray(this.mYVals);
+        dest.writeTypedArray(this.mRanges, flags);
+        dest.writeFloat(this.mNegativeSum);
+        dest.writeFloat(this.mPositiveSum);
+    }
+
+    protected BarEntry(Parcel in) {
+        super(in);
+        this.mYVals = in.createFloatArray();
+        this.mRanges = in.createTypedArray(Range.CREATOR);
+        this.mNegativeSum = in.readFloat();
+        this.mPositiveSum = in.readFloat();
+    }
+
+    public static final Creator<BarEntry> CREATOR = new Creator<BarEntry>() {
+        @Override
+        public BarEntry createFromParcel(Parcel source) {
+            return new BarEntry(source);
+        }
+
+        @Override
+        public BarEntry[] newArray(int size) {
+            return new BarEntry[size];
+        }
+    };
 }
 
 
