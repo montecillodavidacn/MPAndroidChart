@@ -402,7 +402,11 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 
             if (hasText) {
                 MPPointF c = getCenter();
-                canvas.drawText(mNoDataText, c.x, c.y, mInfoPaint);
+                // enable drawing new line if it exists
+                for (String line: mNoDataText.split("\n")) {
+                    canvas.drawText(line, getWidth() / 2, c.y, mInfoPaint);
+                    c.y += mInfoPaint.descent() - mInfoPaint.ascent();
+                }
             }
 
             return;
