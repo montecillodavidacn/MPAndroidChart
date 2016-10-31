@@ -32,6 +32,11 @@ public class Description extends ComponentBase {
         mTextSize = Utils.convertDpToPixel(8f);
     }
 
+    public Description(String text) {
+        this();
+        this.text = text;
+    }
+
     /**
      * Sets the text to be shown as the description.
      * Never set this to null as this will cause nullpointer exception when drawing with Android Canvas.
