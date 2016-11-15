@@ -44,8 +44,8 @@ public class BarEntry extends Entry implements Parcelable {
         super(x, calcSum(vals));
 
         this.mYVals = vals;
-        calcRanges();
         calcPosNegSum();
+        calcRanges();
     }
 
     /**
@@ -69,8 +69,8 @@ public class BarEntry extends Entry implements Parcelable {
         super(x, calcSum(vals), label);
 
         this.mYVals = vals;
-        calcRanges();
         calcPosNegSum();
+        calcRanges();
     }
 
     /**
@@ -244,8 +244,8 @@ public class BarEntry extends Entry implements Parcelable {
             float value = values[i];
 
             if (value < 0) {
-                mRanges[i] = new Range(negRemain, negRemain + value);
-                negRemain += Math.abs(value);
+                mRanges[i] = new Range(negRemain, negRemain - value);
+                negRemain -= value;
             } else {
                 mRanges[i] = new Range(posRemain, posRemain + value);
                 posRemain += value;
