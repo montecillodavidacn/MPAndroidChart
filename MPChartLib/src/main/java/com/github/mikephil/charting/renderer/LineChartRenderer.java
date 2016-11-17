@@ -637,6 +637,8 @@ public class LineChartRenderer extends LineRadarRenderer {
 
                 if (e == null) break;
 
+                if (!e.shouldDrawCircle()) continue;
+
                 mCirclesBuffer[0] = e.getX();
                 mCirclesBuffer[1] = e.getY() * phaseY;
 

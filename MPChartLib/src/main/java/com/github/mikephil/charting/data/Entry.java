@@ -18,6 +18,12 @@ public class Entry extends BaseEntry implements Parcelable {
     /** the x value */
     private float x = 0f;
 
+    /**
+     * boolean used to determine whether a circle should be drawn for each Entry.
+     * default: true
+     */
+    private boolean shouldDrawCircle = true;
+
     public Entry() {
 
     }
@@ -46,6 +52,21 @@ public class Entry extends BaseEntry implements Parcelable {
     }
 
     /**
+     * A Entry represents one single entry in the chart.
+     *
+     * @param x the x value
+     * @param y the y value (the actual value of the entry)
+     * @param data Spot for additional data this Entry represents.
+     * @param shouldDrawCircle boolean used to determine whether a circle should be drawn for
+     *                         this Entry.
+     */
+    public Entry(float x, float y, Object data, boolean shouldDrawCircle) {
+        this(x, y, data);
+        this.x = x;
+        this.shouldDrawCircle = shouldDrawCircle;
+    }
+
+    /**
      * Returns the x-value of this Entry object.
      * 
      * @return
@@ -64,12 +85,30 @@ public class Entry extends BaseEntry implements Parcelable {
     }
 
     /**
+     * Returns whether or not this Entry object should draw a circle.
+     *
+     * @return
+     */
+    public boolean shouldDrawCircle() {
+        return shouldDrawCircle;
+    }
+
+    /**
+     * Sets whether or not this Entry object should draw a circle.
+     *
+     * @param shouldDrawCircle
+     */
+    public void setShouldDrawCircle(boolean shouldDrawCircle) {
+        this.shouldDrawCircle = shouldDrawCircle;
+    }
+
+    /**
      * returns an exact copy of the entry
      * 
      * @return
      */
     public Entry copy() {
-        Entry e = new Entry(x, getY(), getData());
+        Entry e = new Entry(x, getY(), getData(), shouldDrawCircle);
         return e;
     }
 
@@ -95,7 +134,8 @@ public class Entry extends BaseEntry implements Parcelable {
         if (Math.abs(e.getY() - this.getY()) > Utils.FLOAT_EPSILON)
             return false;
 
-        return true;
+        return e.shouldDrawCircle() == this.shouldDrawCircle();
+
     }
 
     /**
@@ -103,7 +143,7 @@ public class Entry extends BaseEntry implements Parcelable {
      */
     @Override
     public String toString() {
-        return "Entry, x: " + x + " y: " + getY();
+        return "Entry, x: " + x + " y: " + getY() + " shouldDrawCircle: " + shouldDrawCircle();
     }
 
     @Override
@@ -114,6 +154,7 @@ public class Entry extends BaseEntry implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeFloat(this.x);
+        dest.writeByte(this.shouldDrawCircle ? (byte) 1 : (byte) 0);
         dest.writeFloat(this.getY());
         if (getData() != null) {
             if (getData() instanceof Parcelable) {
@@ -129,17 +170,20 @@ public class Entry extends BaseEntry implements Parcelable {
 
     protected Entry(Parcel in) {
         this.x = in.readFloat();
+        this.shouldDrawCircle = in.readByte() != 0;
         this.setY(in.readFloat());
         if (in.readInt() == 1) {
             this.setData(in.readParcelable(Object.class.getClassLoader()));
         }
     }
 
-    public static final Parcelable.Creator<Entry> CREATOR = new Parcelable.Creator<Entry>() {
+    public static final Creator<Entry> CREATOR = new Creator<Entry>() {
+        @Override
         public Entry createFromParcel(Parcel source) {
             return new Entry(source);
         }
 
+        @Override
         public Entry[] newArray(int size) {
             return new Entry[size];
         }
