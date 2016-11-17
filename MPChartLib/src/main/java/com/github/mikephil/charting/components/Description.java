@@ -13,7 +13,7 @@ public class Description extends ComponentBase {
     /**
      * the text used in the description
      */
-    private String text = "Description Label";
+    private String text = "";
 
     /**
      * the custom position of the description text
