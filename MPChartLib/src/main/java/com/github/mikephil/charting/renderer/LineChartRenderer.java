@@ -674,6 +674,10 @@ public class LineChartRenderer extends LineRadarRenderer {
 
             Entry e = set.getEntryForXValue(high.getX(), high.getY());
 
+            // for now, don't highlight values without circles
+            if (!e.shouldDrawCircle())
+                continue;
+
             if (!isInBoundsX(e, set))
                 continue;
 
