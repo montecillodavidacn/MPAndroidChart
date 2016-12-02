@@ -1,10 +1,12 @@
 package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Path;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.interfaces.datasets.ILineScatterCandleRadarDataSet;
+import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 /**
@@ -58,6 +60,19 @@ public abstract class LineScatterCandleRadarRenderer extends BarLineScatterCandl
             mHighlightLinePath.lineTo(mViewPortHandler.contentRight(), y);
 
             c.drawPath(mHighlightLinePath, mHighlightPaint);
+        }
+
+        // draw circular highlight lines
+        if (set.isCircularHighlightIndicatorEnabled()) {
+            int[] circleHighlightColors = set.getCircleHighlightColors();
+            float[] circleHighlightRadii = set.getCircleHighlightRadii();
+
+            for (int i = circleHighlightColors.length - 1; i >= 0; i--) {
+                Paint circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                circlePaint.setColor(circleHighlightColors[i]);
+                circlePaint.setStyle(Paint.Style.FILL);
+                c.drawCircle(x, y, Utils.convertDpToPixel(circleHighlightRadii[i]), circlePaint);
+            }
         }
     }
 }

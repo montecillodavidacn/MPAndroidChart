@@ -232,15 +232,8 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
 
         mRenderer.drawData(canvas);
 
-        // if highlighting is enabled
-        if (valuesToHighlight())
-            mRenderer.drawHighlighted(canvas, mIndicesToHighlight);
-
         // Removes clipping rectangle
         canvas.restoreToCount(clipRestoreCount);
-
-        if (mXAxis.isDrawLimitLinesBehindDataEnabled())
-            mRenderer.drawExtras(canvas);
 
         if (!mXAxis.isDrawLimitLinesBehindDataEnabled())
             mXAxisRenderer.renderLimitLines(canvas);
@@ -251,8 +244,11 @@ public abstract class BarLineChartBase<T extends BarLineScatterCandleBubbleData<
         if (!mAxisRight.isDrawLimitLinesBehindDataEnabled())
             mAxisRendererRight.renderLimitLines(canvas);
 
-        if (!mXAxis.isDrawLimitLinesBehindDataEnabled())
-            mRenderer.drawExtras(canvas);
+        mRenderer.drawExtras(canvas);
+
+        // if highlighting is enabled
+        if (valuesToHighlight())
+            mRenderer.drawHighlighted(canvas, mIndicesToHighlight);
 
         mXAxisRenderer.renderAxisLabels(canvas);
         mAxisRendererLeft.renderAxisLabels(canvas);
