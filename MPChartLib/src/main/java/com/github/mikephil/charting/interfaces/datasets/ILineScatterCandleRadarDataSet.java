@@ -22,6 +22,24 @@ public interface ILineScatterCandleRadarDataSet<T extends Entry> extends IBarLin
     boolean isHorizontalHighlightIndicatorEnabled();
 
     /**
+     * Returns true if circular highlight indicator is enabled (drawn)
+     * @return
+     */
+    boolean isCircularHighlightIndicatorEnabled();
+
+    /**
+     * Returns the radii used to draw the circular highlight lines
+     * @return
+     */
+    float[] getCircleHighlightRadii();
+
+    /**
+     * Returns the colors used to draw the circular highlight lines
+     * @return
+     */
+    int[] getCircleHighlightColors();
+
+    /**
      * Returns the line-width in which highlight lines are to be drawn.
      * @return
      */
