@@ -567,7 +567,54 @@ public class LineChartRenderer extends LineRadarRenderer {
 
     @Override
     public void drawExtras(Canvas c) {
+        drawVerticalLines(c);
         drawCircles(c);
+    }
+
+    /**
+     * Used to draw vertical lines on the line chart
+     *
+     * @param c
+     */
+    private void drawVerticalLines(Canvas c) {
+
+        List<ILineDataSet> dataSets = mChart.getLineData().getDataSets();
+
+        mRenderPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        mRenderPaint.setStyle(Paint.Style.STROKE);
+
+        for (int i = 0; i < dataSets.size(); i++) {
+
+            ILineDataSet set = dataSets.get(i);
+
+            if (!set.isVisible() || set.getEntryCount() == 0 || !set.isDrawVerticalLineEnabled())
+                continue;
+
+            mRenderPaint.setStrokeWidth(set.getVerticalLineWidth());
+            mRenderPaint.setColor(set.getVerticalLineColor());
+
+            mXBounds.set(mChart, set);
+
+            int boundsRangeCount = mXBounds.range + mXBounds.min;
+
+            for (int j = mXBounds.min; j <= boundsRangeCount; j++) {
+
+                Entry e = set.getEntryForIndex(j);
+
+                if (e == null) break;
+
+                if (!e.shouldDrawCircle()) continue;
+
+                Transformer transformer = mChart.getTransformer(set.getAxisDependency());
+
+                MPPointD pixStart = transformer.getPixelForValues(e.getX(), e.getY());
+
+                MPPointD pixStop = transformer.getPixelForValues(e.getX(), mChart.getYChartMin());
+
+                c.drawLine((float) pixStart.x, (float) pixStart.y, (float) pixStop.x, (float) pixStop.y,
+                        mRenderPaint);
+            }
+        }
     }
 
     /**

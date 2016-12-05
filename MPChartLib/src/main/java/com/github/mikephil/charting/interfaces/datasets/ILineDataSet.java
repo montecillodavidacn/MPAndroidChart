@@ -100,4 +100,23 @@ public interface ILineDataSet extends ILineRadarDataSet<Entry> {
      * @return
      */
     IFillFormatter getFillFormatter();
+
+    /**
+     * Returns true if drawing the vertical lines is enabled, false if not.
+     *
+     * @return
+     */
+    boolean isDrawVerticalLineEnabled();
+
+    /**
+     * Returns the color of the vertical line.
+     *
+     * @return
+     */
+    int getVerticalLineColor();
+
+    /**
+     * Returns the width of the vertical line.
+     */
+    float getVerticalLineWidth();
 }
