@@ -64,6 +64,20 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
 
     private boolean mDrawCircleHole = true;
 
+    /**
+     * if true, drawing vertical lines is enabled
+     */
+    private boolean mDrawVerticalLines = false;
+
+    /**
+     * the width of the vertical line
+     */
+    private float mVerticalLineWidth = 2f;
+
+    /**
+     * the color of the vertical line
+     */
+    private int mVerticalLineColor = Color.WHITE;
 
     public LineDataSet(List<Entry> yVals, String label) {
         super(yVals, label);
@@ -404,6 +418,51 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
     @Override
     public IFillFormatter getFillFormatter() {
         return mFillFormatter;
+    }
+
+    @Override
+    public boolean isDrawVerticalLineEnabled() {
+        return mDrawVerticalLines;
+    }
+
+    /**
+     * Set this to true to allow drawing vertical lines in the line chart.
+     * default: false
+     *
+     * @param enabled
+     */
+    public void setDrawVerticalLines(boolean enabled) {
+        this.mDrawVerticalLines = enabled;
+    }
+
+    @Override
+    public int getVerticalLineColor() {
+        return mVerticalLineColor;
+    }
+
+    /**
+     * Sets the color of the vertical lines in the line chart.
+     * default: Color.WHITE
+     *
+     * @param color
+     */
+    public void setVerticalLineColor(int color) {
+        this.mVerticalLineColor = color;
+    }
+
+    @Override
+    public float getVerticalLineWidth() {
+        return mVerticalLineWidth;
+    }
+
+    /**
+     * Sets the lineWidth of the drawn vertical lines.
+     * Default lineWidth = 2f
+     *
+     * @param lineWidth
+     */
+    public void setVerticalLineWidth(float lineWidth) {
+        this.mVerticalLineWidth = Utils.convertDpToPixel(lineWidth);
     }
 
     public enum Mode {
