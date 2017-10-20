@@ -32,7 +32,7 @@ import com.xxmassdeveloper.mpchartexample.notimportant.DemoBase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StackedBarActivity extends DemoBase implements OnSeekBarChangeListener, OnChartValueSelectedListener {
+public class    StackedBarActivity extends DemoBase implements OnSeekBarChangeListener, OnChartValueSelectedListener {
 
     private BarChart mChart;
     private SeekBar mSeekBarX, mSeekBarY;
@@ -122,19 +122,6 @@ public class StackedBarActivity extends DemoBase implements OnSeekBarChangeListe
                 mChart.invalidate();
                 break;
             }
-            case R.id.actionToggleIcons: {
-                List<IBarDataSet> sets = mChart.getData()
-                        .getDataSets();
-
-                for (IBarDataSet iSet : sets) {
-
-                    BarDataSet set = (BarDataSet) iSet;
-                    set.setDrawIcons(!set.isDrawIconsEnabled());
-                }
-
-                mChart.invalidate();
-                break;
-            }
             case R.id.actionToggleHighlight: {
                 if (mChart.getData() != null) {
                     mChart.getData().setHighlightEnabled(!mChart.getData().isHighlightEnabled());
@@ -201,10 +188,7 @@ public class StackedBarActivity extends DemoBase implements OnSeekBarChangeListe
             float val2 = (float) (Math.random() * mult) + mult / 3;
             float val3 = (float) (Math.random() * mult) + mult / 3;
 
-            yVals1.add(new BarEntry(
-                    i,
-                    new float[]{val1, val2, val3},
-                    getResources().getDrawable(R.drawable.star)));
+            yVals1.add(new BarEntry(i, new float[]{val1, val2, val3}));
         }
 
         BarDataSet set1;
@@ -217,7 +201,6 @@ public class StackedBarActivity extends DemoBase implements OnSeekBarChangeListe
             mChart.notifyDataSetChanged();
         } else {
             set1 = new BarDataSet(yVals1, "Statistics Vienna 2014");
-            set1.setDrawIcons(false);
             set1.setColors(getColors());
             set1.setStackLabels(new String[]{"Births", "Divorces", "Marriages"});
 

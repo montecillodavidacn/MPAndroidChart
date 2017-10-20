@@ -2,11 +2,10 @@
 package com.github.mikephil.charting.data;
 
 import android.annotation.SuppressLint;
-import android.graphics.drawable.Drawable;
 
 /**
  * Subclass of Entry that holds all values for one entry in a CandleStickChart.
- * 
+ *
  * @author Philipp Jahoda
  */
 @SuppressLint("ParcelCreator")
@@ -26,12 +25,12 @@ public class CandleEntry extends Entry {
 
     /**
      * Constructor.
-     * 
-     * @param x The value on the x-axis
-     * @param shadowH The (shadow) high value
-     * @param shadowL The (shadow) low value
-     * @param open The open value
-     * @param close The close value
+     *
+     * @param x The value on the x-axis.
+     * @param shadowH The (shadow) high value.
+     * @param shadowL The (shadow) low value.
+     * @param open The open value.
+     * @param close The close value.
      */
     public CandleEntry(float x, float shadowH, float shadowL, float open, float close) {
         super(x, (shadowH + shadowL) / 2f);
@@ -45,12 +44,12 @@ public class CandleEntry extends Entry {
     /**
      * Constructor.
      *
-     * @param x The value on the x-axis
-     * @param shadowH The (shadow) high value
-     * @param shadowL The (shadow) low value
+     * @param x The value on the x-axis.
+     * @param shadowH The (shadow) high value.
+     * @param shadowL The (shadow) low value.
      * @param open
      * @param close
-     * @param data Spot for additional data this Entry represents
+     * @param data Spot for additional data this Entry represents.
      */
     public CandleEntry(float x, float shadowH, float shadowL, float open, float close,
                        Object data) {
@@ -63,50 +62,9 @@ public class CandleEntry extends Entry {
     }
 
     /**
-     * Constructor.
-     *
-     * @param x The value on the x-axis
-     * @param shadowH The (shadow) high value
-     * @param shadowL The (shadow) low value
-     * @param open
-     * @param close
-     * @param icon Icon image
-     */
-    public CandleEntry(float x, float shadowH, float shadowL, float open, float close,
-                       Drawable icon) {
-        super(x, (shadowH + shadowL) / 2f, icon);
-
-        this.mShadowHigh = shadowH;
-        this.mShadowLow = shadowL;
-        this.mOpen = open;
-        this.mClose = close;
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param x The value on the x-axis
-     * @param shadowH The (shadow) high value
-     * @param shadowL The (shadow) low value
-     * @param open
-     * @param close
-     * @param icon Icon image
-     * @param data Spot for additional data this Entry represents
-     */
-    public CandleEntry(float x, float shadowH, float shadowL, float open, float close,
-                       Drawable icon, Object data) {
-        super(x, (shadowH + shadowL) / 2f, icon, data);
-
-        this.mShadowHigh = shadowH;
-        this.mShadowLow = shadowL;
-        this.mOpen = open;
-        this.mClose = close;
-    }
-
-    /**
      * Returns the overall range (difference) between shadow-high and
      * shadow-low.
-     * 
+     *
      * @return
      */
     public float getShadowRange() {
@@ -115,7 +73,7 @@ public class CandleEntry extends Entry {
 
     /**
      * Returns the body size (difference between open and close).
-     * 
+     *
      * @return
      */
     public float getBodyRange() {
@@ -141,7 +99,7 @@ public class CandleEntry extends Entry {
 
     /**
      * Returns the upper shadows highest value.
-     * 
+     *
      * @return
      */
     public float getHigh() {
@@ -154,7 +112,7 @@ public class CandleEntry extends Entry {
 
     /**
      * Returns the lower shadows lowest value.
-     * 
+     *
      * @return
      */
     public float getLow() {
@@ -167,7 +125,7 @@ public class CandleEntry extends Entry {
 
     /**
      * Returns the bodys close value.
-     * 
+     *
      * @return
      */
     public float getClose() {
@@ -180,7 +138,7 @@ public class CandleEntry extends Entry {
 
     /**
      * Returns the bodys open value.
-     * 
+     *
      * @return
      */
     public float getOpen() {

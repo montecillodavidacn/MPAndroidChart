@@ -1,11 +1,10 @@
 package com.github.mikephil.charting.data;
 
 import android.annotation.SuppressLint;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 /**
- * @author Philipp Jahoda
+ * Created by Philipp Jahoda on 31/05/16.
  */
 @SuppressLint("ParcelCreator")
 public class PieEntry extends Entry {
@@ -20,14 +19,6 @@ public class PieEntry extends Entry {
         super(0f, value, data);
     }
 
-    public PieEntry(float value, Drawable icon) {
-        super(0f, value, icon);
-    }
-
-    public PieEntry(float value, Drawable icon, Object data) {
-        super(0f, value, icon, data);
-    }
-
     public PieEntry(float value, String label) {
         super(0f, value);
         this.label = label;
@@ -35,16 +26,6 @@ public class PieEntry extends Entry {
 
     public PieEntry(float value, String label, Object data) {
         super(0f, value, data);
-        this.label = label;
-    }
-
-    public PieEntry(float value, String label, Drawable icon) {
-        super(0f, value, icon);
-        this.label = label;
-    }
-
-    public PieEntry(float value, String label, Drawable icon, Object data) {
-        super(0f, value, icon, data);
         this.label = label;
     }
 
