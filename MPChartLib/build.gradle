@@ -2,21 +2,16 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven'
 //apply plugin: 'com.github.dcendents.android-maven'
 //apply plugin: 'realm-android'
-apply plugin: 'maven-publish'
-
-archivesBaseName = 'MPAndroidChart'
-version = 'v3.0.1.3'
-def versionCodeInt = 7
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    buildToolsVersion '25.0.0'
     // resourcePrefix 'mpcht'
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 9
         targetSdkVersion 25
-        versionCode versionCodeInt
-        versionName "${version}"
+        versionCode 3
+        versionName '3.0.2'
     }
     buildTypes {
         release {
@@ -24,21 +19,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    lintOptions {
+        abortOnError false
+    }
     testOptions {
         unitTests.returnDefaultValues = true // this prevents "not mocked" error
     }
-    libraryVariants.all { variant ->
-        variant.outputs.each { output ->
-            def outputFile = output.outputFile
+}
 
-            if (outputFile != null && outputFile.name.endsWith('.aar')) {
-                output.outputFile = new File(outputFile.parent, "${archivesBaseName}-${variant.buildType.name}.aar")
-            }
-        }
-    }
-    lintOptions {
-        abortOnError false
+repositories {
+    maven {
+        url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
     }
 }
 
@@ -58,79 +49,13 @@ android.libraryVariants.all { variant ->
     artifacts.add('archives', task);
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            groupId 'com.weightwatchers.mpandroidchart'
-            artifactId "${archivesBaseName}"
-            version "${version}"
-
-            artifact sourcesJar {
-                classifier 'sources'
-            }
-
-            artifact ("${buildDir}/outputs/aar/${archivesBaseName}-release.aar") {
-                extension = 'aar'
-            }
-
-            // http://stackoverflow.com/a/24764713
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-
-                configurations.compile.allDependencies.each {
-                    if (it.group) {
-                        def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.group)
-                        dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
-
-                        if (it instanceof ModuleDependency) {
-                            def depExclusionsNode = dependencyNode.appendNode('exclusions')
-
-                            ((ModuleDependency) it).excludeRules.each {
-                                def exclusionNode = depExclusionsNode.appendNode('exclusion')
-                                exclusionNode.appendNode('groupId', it.group)
-                                exclusionNode.appendNode('artifactId', it.module)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // This is new for the S3 bucket:
-    repositories {
-
-        mavenLocal()
-    }
-
-    publish.dependsOn assembleRelease
-
-}
-
-repositories {
-    flatDir {
-        dirs 'aar'
-    }
-
-    maven {
-        url 'https://repo.commonsware.com.s3.amazonaws.com'
-    }
-    maven {
-        url 'https://jitpack.io'
-    }
-    maven {
-        url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
-    }
-}
-
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     classifier = 'sources'
 }
 
 task javadoc(type: Javadoc) {
+    options.charSet = 'UTF-8'
     failOnError  false
     source = android.sourceSets.main.java.sourceFiles
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
