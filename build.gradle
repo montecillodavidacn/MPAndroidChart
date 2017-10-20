@@ -16,12 +16,6 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven {
-            url "s3://androidrepos/releases"
-            credentials(AwsCredentials) {
-                accessKey WW_AWS_ACCESS_KEY
-                secretKey WW_SECRET_KEY
-            }
-        }
+
     }
 }
